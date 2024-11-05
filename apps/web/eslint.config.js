@@ -7,6 +7,10 @@ module.exports = [
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     // Override or add rules here
-    rules: {},
+    rules: {
+      'jsx-a11y/accessible-emoji': 'off',
+      '@typescript-eslint/no-empty-object-type': 'warn',
+      '@typescript-eslint/no-empty-interface': 'warn',
+    },
   },
 ];

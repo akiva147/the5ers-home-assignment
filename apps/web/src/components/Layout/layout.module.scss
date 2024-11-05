@@ -1,0 +1,9 @@
+.container {
+  & > main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 4rem;
+    padding-block: 1rem;
+  }
+}
