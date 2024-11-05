@@ -1,14 +1,24 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { RootErrorBoundary } from './components/RootErrorBoundary';
-import { defaultRoute, routes } from './constants/routes.const';
+import {
+  authenticatedRoutes,
+  defaultRoute,
+  publicRoutes,
+} from './constants/routes.const';
 import { Layout } from './components/Layout';
+import { AuthRoutes } from './components/AuthRoutes';
 
 export function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />} errorElement={<RootErrorBoundary />}>
         <Route index element={<Navigate to={defaultRoute} />} />
-        {Object.values(routes).map(({ path, element }) => (
+        <Route element={<AuthRoutes />}>
+          {Object.values(authenticatedRoutes).map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
+        </Route>
+        {Object.values(publicRoutes).map(({ path, element }) => (
           <Route key={path} path={path} element={element} />
         ))}
       </Route>
