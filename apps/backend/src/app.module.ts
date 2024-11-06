@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_PIPE } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ZodValidationPipe } from 'nestjs-zod';
+import { UserModule } from './modules/user/user.module';
 import { validateEnvs } from './utils/env.utils';
 
 const { DB_CONNECTION, DB_NAME } = validateEnvs();
@@ -12,7 +15,13 @@ const { DB_CONNECTION, DB_NAME } = validateEnvs();
       ignoreUndefined: true,
       dbName: DB_NAME,
     }),
+    UserModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: ZodValidationPipe,
+    },
+  ],
 })
 export class AppModule {}
