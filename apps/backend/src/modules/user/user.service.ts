@@ -7,19 +7,21 @@ import { InjectModel } from '@nestjs/mongoose';
 import bcrypt from 'bcryptjs';
 import { Model } from 'mongoose';
 import { generateAccessToken } from '../../utils/auth.utils';
-import { UserDto } from './dto/create-user.dto';
+import { LoginUserDto, UserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async signup({ email, password }: UserDto) {
+  async signup({ email, password, fullName }: UserDto) {
+    // uncomment to debug
+    // console.log('🚀 ~ UserService ~ signup ~ { email, password, fullName }:', {
+    //   email,
+    //   password,
+    //   fullName,
+    // });
     try {
-      console.log('🚀 ~ UserService ~ signup ~ existingUser:', {
-        email,
-        password,
-      });
       try {
         const existingUser = await this.userModel.findOne({ email }).exec();
         if (existingUser) {
@@ -33,6 +35,7 @@ export class UserService {
       const createdUser = await this.userModel.create({
         email,
         password: hashedPassword,
+        fullName,
       });
       return { message: 'User created successfully', userId: createdUser.id };
     } catch (error) {
@@ -40,14 +43,7 @@ export class UserService {
     }
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
-  }
-
-  async findOne(id: string): Promise<User> {
-    return this.userModel.findOne({ _id: id }).exec();
-  }
-  async login({ email, password }: UserDto): Promise<string> {
+  async login({ email, password }: LoginUserDto): Promise<string> {
     try {
       const user = await this.userModel.findOne({ email }).exec();
 
@@ -55,6 +51,8 @@ export class UserService {
         throw new BadRequestException('Invalid credentials');
       } else {
         const token = generateAccessToken(user);
+        // uncomment to debug
+        // console.log('🚀 ~ UserService ~ login ~ user:', user);
 
         return token;
       }

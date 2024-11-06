@@ -6,6 +6,10 @@ const regexes = {
 };
 
 export const UserSchema = z.object({
+  fullName: z
+    .string()
+    .min(2, 'Name Must be at least 2 characters')
+    .max(20, "Name Can't be more than 20 characters"),
   email: z.string().regex(regexes.email, { message: 'Invalid email' }),
   password: z.string().regex(regexes.password, {
     message:
@@ -13,4 +17,9 @@ export const UserSchema = z.object({
   }),
 });
 
+export const LoginUserSchema = UserSchema.omit({
+  fullName: true,
+});
+
 export class UserDto extends createZodDto(UserSchema) {}
+export class LoginUserDto extends createZodDto(LoginUserSchema) {}
