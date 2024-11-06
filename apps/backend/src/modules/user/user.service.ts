@@ -22,14 +22,6 @@ export class UserService {
     //   fullName,
     // });
     try {
-      try {
-        const existingUser = await this.userModel.findOne({ email }).exec();
-        if (existingUser) {
-          throw new BadRequestException('User already exists');
-        }
-      } catch (error) {
-        console.log('🚀 ~ UserService ~ signup ~ error:', error);
-      }
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const createdUser = await this.userModel.create({
