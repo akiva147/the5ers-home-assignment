@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@the5ers-home-assignment/schemas": ["libs/schemas/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
