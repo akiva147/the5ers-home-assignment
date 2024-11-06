@@ -1,16 +1,17 @@
 import axios from 'axios';
 import { validateEnvs } from '../utils/env.utils';
 
-const PREFIX = 'auth';
+const PREFIX = 'user';
 const { VITE_BACKEND_URL } = validateEnvs();
 
-class AuthService {
-  async login(email: string, password: string): Promise<{ token: string }> {
+class UserService {
+  async login(email: string, password: string): Promise<string> {
     try {
       const response = await axios.post(`${VITE_BACKEND_URL}/${PREFIX}/login`, {
         email,
         password,
       });
+
       return response.data;
     } catch (error) {
       console.error('Error during login', error);
@@ -31,4 +32,4 @@ class AuthService {
   }
 }
 
-export const authService = new AuthService();
+export const userService = new UserService();

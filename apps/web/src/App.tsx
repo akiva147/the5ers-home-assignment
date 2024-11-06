@@ -21,6 +21,7 @@ export function App() {
         {Object.values(publicRoutes).map(({ path, element }) => (
           <Route key={path} path={path} element={element} />
         ))}
+        <Route path="/*" element={<Navigate to={defaultRoute} />} />
       </Route>
     </Routes>
   );

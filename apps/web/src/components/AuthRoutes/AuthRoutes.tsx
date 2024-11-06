@@ -1,14 +1,25 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { isTokenExpired } from '../../utils/general.utils';
+import { message } from 'antd';
+import { useEffect } from 'react';
 
 interface AuthRoutesProps {}
 
 export const AuthRoutes = (props: AuthRoutesProps) => {
-  // the token is curretly an empty string
-  // because there is no backend logic yet
-  const isExpired = isTokenExpired('');
+  const { isExpired, isUndefined } = isTokenExpired();
 
-  if (isExpired) return <Navigate to="/login" />;
+  useEffect(() => {
+    if (isExpired) {
+      message.error({
+        content: 'Your session has expired. Please log in again.',
+        key: 'session-expired',
+      });
+    }
+  }, [isExpired]);
+
+  if (isUndefined || isExpired) {
+    return <Navigate to="/login" />;
+  }
 
   return <Outlet />;
 };

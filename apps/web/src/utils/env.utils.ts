@@ -1,7 +1,7 @@
 import { Env, EnvSchema } from '../schemas/env.schema';
 
 export const validateEnvs = (): Env => {
-  const env = process.env;
+  const env = import.meta.env;
 
   const parsed = EnvSchema.safeParse(env);
 
