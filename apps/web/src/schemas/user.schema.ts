@@ -6,6 +6,7 @@ const regexes = {
 };
 
 export const UserSchema = z.object({
+  fullName: z.string().min(2).max(20),
   email: z.string().regex(regexes.email, { message: 'Invalid email' }),
   password: z.string().regex(regexes.password, {
     message:
@@ -13,4 +14,16 @@ export const UserSchema = z.object({
   }),
 });
 
+export const LoginUserSchema = UserSchema.omit({
+  fullName: true,
+});
+
+export const TokenUserSchema = UserSchema.omit({
+  password: true,
+}).extend({
+  password: z.string(),
+});
+
 export type User = z.infer<typeof UserSchema>;
+export type TokenUser = z.infer<typeof TokenUserSchema>;
+export type LoginUser = z.infer<typeof LoginUserSchema>;

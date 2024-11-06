@@ -1,5 +1,5 @@
 import classes from './form.module.scss';
-import { User, UserSchema } from '../../schemas/user.schema';
+import { LoginUserSchema, User, UserSchema } from '../../schemas/user.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Button } from 'antd';
@@ -13,7 +13,10 @@ export interface FormProps {
 
 export const Form = ({ variant, onSubmit }: FormProps) => {
   const methods = useForm<User>({
-    resolver: zodResolver(UserSchema),
+    resolver:
+      variant === 'signup'
+        ? zodResolver(UserSchema)
+        : zodResolver(LoginUserSchema),
     mode: 'onChange',
     defaultValues: defaultValues,
   });
@@ -29,6 +32,13 @@ export const Form = ({ variant, onSubmit }: FormProps) => {
             <h5>{title} to continue</h5>
           </header>
           <main>
+            {variant === 'signup' && (
+              <CustomInput
+                type="text"
+                placeholder="Full Name"
+                fieldName="fullName"
+              />
+            )}
             <CustomInput type="email" placeholder="Email" fieldName="email" />
             <CustomInput
               type="password"

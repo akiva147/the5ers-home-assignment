@@ -19,11 +19,12 @@ class UserService {
     }
   }
 
-  async signup(email: string, password: string) {
+  async signup(email: string, password: string, fullName: string) {
     try {
       await axios.post(`${VITE_BACKEND_URL}/${PREFIX}/signup`, {
         email,
         password,
+        fullName,
       });
     } catch (error) {
       console.error('Error during signup', error);
