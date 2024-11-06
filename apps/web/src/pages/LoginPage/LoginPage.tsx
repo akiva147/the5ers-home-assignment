@@ -2,7 +2,7 @@ import { userService } from '../../services/user.service';
 import { Form } from '../../components/Form';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { User } from '../../schemas/user.schema';
+import { User } from '@the5ers-home-assignment/schemas';
 import { defaultRoute } from '../../constants/routes.const';
 
 export interface LoginPageProps {}

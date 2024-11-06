@@ -1,5 +1,5 @@
+import { PageStock, SingleStock } from '@the5ers-home-assignment/schemas';
 import axios from 'axios';
-import { PageStock, SingleStock } from '../schemas/stock.schema';
 import { validateEnvs } from '../utils/env.utils';
 
 const { VITE_STOCK_API_TOKEN } = validateEnvs();

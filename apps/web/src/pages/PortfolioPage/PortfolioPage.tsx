@@ -10,6 +10,7 @@ export interface PortfolioPageProps {}
 export const PortfolioPage = (props: PortfolioPageProps) => {
   const user = getUser();
   const [query, setQuery] = useState('');
+  const fisrtName = user.fullName.split(' ')[0];
   const { data } = useQuery({
     queryKey: ['stocks'],
     queryFn: async () => await stockService.getStocks(query),
@@ -19,7 +20,7 @@ export const PortfolioPage = (props: PortfolioPageProps) => {
   return (
     <div className={classes.container}>
       <header>
-        <h2>hey {user.email}, your stock portfolio</h2>
+        <h2>Welcome {fisrtName}! here is your stock portfolio</h2>
       </header>
       <Input />
     </div>

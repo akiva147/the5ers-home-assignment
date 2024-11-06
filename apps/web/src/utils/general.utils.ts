@@ -1,5 +1,5 @@
+import { TokenUserSchema } from '@the5ers-home-assignment/schemas';
 import { jwtDecode } from 'jwt-decode';
-import { TokenUserSchema } from '../schemas/user.schema';
 
 export const isTokenExpired = (): {
   isExpired: boolean;

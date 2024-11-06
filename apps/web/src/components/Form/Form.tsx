@@ -1,5 +1,9 @@
 import classes from './form.module.scss';
-import { LoginUserSchema, User, UserSchema } from '../../schemas/user.schema';
+import {
+  LoginUserSchema,
+  User,
+  UserSchema,
+} from '@the5ers-home-assignment/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Button } from 'antd';

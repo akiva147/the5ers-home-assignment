@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Form } from '../../components/Form';
-import { User } from '../../schemas/user.schema';
+import { User } from '@the5ers-home-assignment/schemas';
 import { message } from 'antd';
 import { userService } from '../../services/user.service';
 
