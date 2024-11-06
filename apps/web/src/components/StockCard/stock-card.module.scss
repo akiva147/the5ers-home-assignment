@@ -1,0 +1,20 @@
+.container {
+  border: solid 0.1rem black;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  & > main {
+    h5 {
+      margin: 0;
+      font-size: 1rem;
+    }
+    font-size: 0.8rem;
+  }
+  & > footer {
+    display: flex;
+    justify-content: space-between;
+    .addButton {
+      color: white;
+      background-color: rgb(46, 158, 36);
+    }
+  }
+}

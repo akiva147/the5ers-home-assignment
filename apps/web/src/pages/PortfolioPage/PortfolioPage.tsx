@@ -4,17 +4,16 @@ import { stockService } from '../../services/stock.service';
 import { useState } from 'react';
 import { Input } from 'antd';
 import { getUser } from '../../utils/general.utils';
+import { SearchOutlined } from '@ant-design/icons';
+import { StockList } from '../../components/StockList';
+import { SearchStocks } from '../../components/SearchStocks';
 
 export interface PortfolioPageProps {}
 
 export const PortfolioPage = (props: PortfolioPageProps) => {
   const user = getUser();
-  const [query, setQuery] = useState('');
+
   const fisrtName = user.fullName.split(' ')[0];
-  const { data } = useQuery({
-    queryKey: ['stocks'],
-    queryFn: async () => await stockService.getStocks(query),
-  });
 
   // console.log('🚀 ~ PortfolioPage ~ data:', data);
   return (
@@ -22,7 +21,10 @@ export const PortfolioPage = (props: PortfolioPageProps) => {
       <header>
         <h2>Welcome {fisrtName}! here is your stock portfolio</h2>
       </header>
-      <Input />
+      <main>
+        <SearchStocks />
+        <StockList />
+      </main>
     </div>
   );
 };

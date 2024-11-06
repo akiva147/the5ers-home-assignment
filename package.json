@@ -5,6 +5,7 @@
   "scripts": {},
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.5.1",
     "@hookform/resolvers": "^3.9.1",
     "@nestjs/common": "^10.0.2",
     "@nestjs/config": "^3.3.0",

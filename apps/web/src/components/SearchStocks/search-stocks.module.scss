@@ -1,0 +1,10 @@
+.container {
+  background-color: bisque;
+  overflow-y: auto;
+  & > main {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+}
