@@ -1,6 +1,7 @@
 import { SignupPage } from '../pages/SignupPage';
 import { LoginPage } from '../pages/LoginPage';
 import { PortfolioPage } from '../pages/PortfolioPage';
+import { SingleStock } from '../pages/SingleStock';
 
 export type Route = { title: string; path: string; element: JSX.Element };
 
@@ -13,6 +14,11 @@ export const authenticatedRoutes: Routes = {
     title: 'Portfolio',
     path: '/portfolio',
     element: <PortfolioPage />,
+  },
+  '/stock:symbol': {
+    title: 'Stock Details',
+    path: '/stock/:symbol',
+    element: <SingleStock />,
   },
 };
 

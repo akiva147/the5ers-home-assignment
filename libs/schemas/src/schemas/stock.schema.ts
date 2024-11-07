@@ -21,17 +21,17 @@ export const PageStockSchema = z.object({
   previousClose: z.number(),
   eps: z.number(),
   pe: z.number(),
-  earningsAnnouncement: customValidations.dateSrinng,
+  earningsAnnouncement: customValidations.dateString,
   sharesOutstanding: z.number(),
   timestamp: z.number(),
 });
 
 export const SingleStockSchema = z.object({
-  symbol: z.string(),
-  name: z.string(),
-  currency: z.string(),
-  stockExchange: z.string(),
-  exchangeShortName: z.string(),
+  symbol: z.string().optional(),
+  name: z.string().optional(),
+  currency: z.string().optional(),
+  stockExchange: z.string().optional(),
+  exchangeShortName: z.string().optional(),
 });
 
 export type PageStock = z.infer<typeof PageStockSchema>;

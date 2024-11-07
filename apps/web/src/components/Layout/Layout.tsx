@@ -1,21 +1,17 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import classes from './layout.module.scss';
 import { Navbar } from '../Navbar';
-import { useMemo } from 'react';
-import { authenticatedRoutes } from '../../constants/routes.const';
+import { isTokenExpired } from '../../utils/general.utils';
 
 export interface LayoutProps {}
 
 export const Layout = (props: LayoutProps) => {
   const location = useLocation();
-  const isAuth = useMemo(
-    () => (authenticatedRoutes[location.pathname] ? true : false),
-    [location.pathname]
-  );
+  const { isExpired, isUndefined } = isTokenExpired();
 
   return (
     <div className={classes.container}>
-      {isAuth && <Navbar />}
+      {!isExpired && !isUndefined && <Navbar />}
       <main>
         <Outlet />
       </main>

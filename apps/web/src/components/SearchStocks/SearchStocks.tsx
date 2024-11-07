@@ -16,6 +16,8 @@ export const SearchStocks = (props: SearchStocksProps) => {
     queryKey: ['stocks', query],
     queryFn: async () => await stockService.getStocks(query),
   });
+  // uncomment to debug
+  // console.log('🚀 ~ SearchStocks ~ data:', data);
   if (status === 'error') {
     message.error({
       content: 'Failed to fetch stocks. Please try again later.',

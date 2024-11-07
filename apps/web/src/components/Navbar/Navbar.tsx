@@ -3,6 +3,7 @@ import classes from './navbar.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import { defaultRoute } from '../../constants/routes.const';
+import { HomeOutlined } from '@ant-design/icons';
 
 export interface NavbarProps {}
 
@@ -23,6 +24,12 @@ export const Navbar = (props: NavbarProps) => {
 
   return (
     <header className={classes.container}>
+      <Button
+        variant="link"
+        type="text"
+        icon={<HomeOutlined style={{ fontSize: '2rem' }} />}
+        onClick={() => navigate(defaultRoute)}
+      />
       <span>{currPage}</span>
       <Button type="primary" onClick={() => signout()}>
         Signout

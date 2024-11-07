@@ -1,10 +1,19 @@
-import { PageStock, SingleStock } from '@the5ers-home-assignment/schemas';
+import {
+  PageStock,
+  PageStockSchema,
+  SingleStock,
+  SingleStockSchema,
+  UserStock,
+} from '@the5ers-home-assignment/schemas';
 import axios from 'axios';
 import { validateEnvs } from '../utils/env.utils';
+import { authInstance } from './index.service';
 
 const { VITE_STOCK_API_TOKEN } = validateEnvs();
 
 const STOCK_API_URL = 'https://financialmodelingprep.com/api/v3/';
+
+const PREFIX = '/stock';
 
 class StockService {
   async getStocks(query: string, limit = 10): Promise<SingleStock[]> {
@@ -18,8 +27,8 @@ class StockService {
           limit,
         },
       });
-
-      return response.data;
+      const data = SingleStockSchema.array().parse(response.data);
+      return data;
     } catch (error) {
       console.error('Error during stock fetching', error);
       throw new Error('Failed to stock fetching');
@@ -38,11 +47,22 @@ class StockService {
           },
         }
       );
-
-      return response.data;
+      const data = PageStockSchema.parse(response.data[0]);
+      return data;
     } catch (error) {
       console.error('Error during stock fetching', error);
       throw new Error('Failed to stock fetching');
+    }
+  }
+
+  async addStock(stock: UserStock) {
+    try {
+      await authInstance.post(`${PREFIX}`, {
+        stock,
+      });
+    } catch (error) {
+      console.error('Error during signup', error);
+      throw new Error('Failed to signup');
     }
   }
 }
