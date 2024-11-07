@@ -3,16 +3,19 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import bcrypt from 'bcryptjs';
 import { Model } from 'mongoose';
-import { generateAccessToken } from '../../utils/auth.utils';
 import { LoginUserDto, UserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    private jwtService: JwtService
+  ) {}
 
   async signup({ email, password, fullName }: UserDto) {
     // uncomment to debug
@@ -42,9 +45,16 @@ export class UserService {
       if (!user || !(await bcrypt.compare(password, user.password))) {
         throw new BadRequestException('Invalid credentials');
       } else {
-        const token = generateAccessToken(user);
+        console.log('🚀 ~ UserService ~ login ~ user:', user);
+        const payload = {
+          sub: user._id,
+          email: user.email,
+          password: user.password,
+          fullName: user.fullName,
+        };
+        const token = await this.jwtService.signAsync(payload);
         // uncomment to debug
-        // console.log('🚀 ~ UserService ~ login ~ user:', user);
+        // console.log('🚀 ~ UserService ~ login ~ token:', token);
 
         return token;
       }
