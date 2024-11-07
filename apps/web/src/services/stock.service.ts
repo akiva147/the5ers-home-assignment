@@ -3,11 +3,9 @@ import {
   PageStockSchema,
   SingleStock,
   SingleStockSchema,
-  UserStock,
 } from '@the5ers-home-assignment/schemas';
 import axios from 'axios';
 import { validateEnvs } from '../utils/env.utils';
-import { authInstance } from './index.service';
 
 const { VITE_STOCK_API_TOKEN } = validateEnvs();
 
@@ -52,17 +50,6 @@ class StockService {
     } catch (error) {
       console.error('Error during stock fetching', error);
       throw new Error('Failed to stock fetching');
-    }
-  }
-
-  async addStock(stock: UserStock) {
-    try {
-      await authInstance.post(`${PREFIX}`, {
-        stock,
-      });
-    } catch (error) {
-      console.error('Error during signup', error);
-      throw new Error('Failed to signup');
     }
   }
 }

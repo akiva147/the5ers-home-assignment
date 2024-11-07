@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import classes from './layout.module.scss';
 import { Navbar } from '../Navbar';
-import { isTokenExpired } from '../../utils/general.utils';
+import { isTokenExpired } from '../../utils/user.utils';
 
 export interface LayoutProps {}
 

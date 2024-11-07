@@ -1,5 +1,11 @@
+import {
+  User,
+  UserStock,
+  UserStockSchema,
+} from '@the5ers-home-assignment/schemas';
 import axios from 'axios';
 import { validateEnvs } from '../utils/env.utils';
+import { authInstance } from './index.service';
 
 const PREFIX = 'user';
 const { VITE_BACKEND_URL } = validateEnvs();
@@ -19,16 +25,34 @@ class UserService {
     }
   }
 
-  async signup(email: string, password: string, fullName: string) {
+  async signup(user: User) {
     try {
       await axios.post(`${VITE_BACKEND_URL}/${PREFIX}/signup`, {
-        email,
-        password,
-        fullName,
+        ...user,
       });
     } catch (error) {
       console.error('Error during signup', error);
       throw new Error('Failed to signup');
+    }
+  }
+  async addStock(stock: UserStock) {
+    try {
+      await authInstance.post(`${PREFIX}/stock`, {
+        stock,
+      });
+    } catch (error) {
+      console.error('Error during adding stock', error);
+      throw new Error('Failed to add stock');
+    }
+  }
+  async getStocks() {
+    try {
+      const response = await authInstance.get(`${PREFIX}/stock`);
+      const data = UserStockSchema.array().parse(response.data);
+      return data;
+    } catch (error) {
+      console.error('Error during fetching stocks', error);
+      throw new Error('Failed to fetch stocks');
     }
   }
 }

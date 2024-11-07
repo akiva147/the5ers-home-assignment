@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { isTokenExpired } from '../../utils/general.utils';
+import { isTokenExpired } from '../../utils/user.utils';
 import { message } from 'antd';
 import { useEffect } from 'react';
 
