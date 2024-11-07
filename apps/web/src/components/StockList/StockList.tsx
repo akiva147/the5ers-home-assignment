@@ -1,24 +1,21 @@
-import { UserStock } from '@the5ers-home-assignment/schemas';
-import classes from './stock-list.module.scss';
+import { observer } from 'mobx-react';
 import { Button, message } from 'antd';
+import classes from './stock-list.module.scss';
 import { loader } from '../../constants/general';
+import { StockCard } from '../StockCard';
+import { stockStore } from './store';
 import { useStockList } from './useStockList';
+import { useNavigate } from 'react-router-dom';
 
 export interface StockListProps {}
 
-// Suggested feature: merging this stock signle stock and StockCard component
+export const StockList = observer((props: StockListProps) => {
+  const navigate = useNavigate();
+  const { data, status, deleteStock } = useStockList();
 
-export const StockList = (props: StockListProps) => {
-  const { data, deleteStock, status, navigate } = useStockList();
-  // uncomment to debug
-  // console.log('🚀 ~ StockList ~ data:', data);
-
-  if (status === 'error') {
-    message.error({
-      content: 'Failed to fetch user stocks. Please try again later.',
-      key: 'user-stock-error',
-    });
-    console.error('Error fetching stocks:', data);
+  // Error handling
+  if (status === 'error' && stockStore.error) {
+    message.error(stockStore.error);
   }
 
   return (
@@ -27,12 +24,12 @@ export const StockList = (props: StockListProps) => {
         <h4>Stock List</h4>
       </header>
       <main>
-        {status === 'pending' ? (
+        {status === 'loading' ? (
           loader
         ) : status === 'success' && data?.length === 0 ? (
           <p>Add Stock to your list to see them here</p>
         ) : (
-          data?.map(({ name, symbol }: UserStock) => (
+          data?.map(({ name, symbol }) => (
             <div className={classes.stock} key={symbol}>
               <main>
                 <p>
@@ -52,11 +49,7 @@ export const StockList = (props: StockListProps) => {
                   View Stock Details
                 </Button>
 
-                <Button
-                  variant="filled"
-                  danger
-                  onClick={() => deleteStock(symbol)}
-                >
+                <Button danger onClick={() => deleteStock(symbol)}>
                   Delete Stock From List
                 </Button>
               </footer>
@@ -66,4 +59,4 @@ export const StockList = (props: StockListProps) => {
       </main>
     </section>
   );
-};
+});

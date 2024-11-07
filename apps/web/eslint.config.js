@@ -11,6 +11,7 @@ module.exports = [
       'jsx-a11y/accessible-emoji': 'off',
       '@typescript-eslint/no-empty-object-type': 'warn',
       '@typescript-eslint/no-empty-interface': 'warn',
+      '@typescript-eslint/no-inferrable-types': 'off',
     },
   },
 ];
