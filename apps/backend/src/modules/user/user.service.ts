@@ -9,8 +9,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { TokenUser, UserStock } from '@the5ers-home-assignment/schemas';
 import bcrypt from 'bcryptjs';
 import { Model } from 'mongoose';
-import { LoginUserDto, UserDto, UserStockDto } from './dto/create-user.dto';
-import { User } from './schemas/user.schema';
+import { LoginUserDto, UserDto } from './dto/create-user.dto';
+import { Stock, User } from './schemas/user.schema';
 
 @Injectable()
 export class UserService {
@@ -67,36 +67,34 @@ export class UserService {
       throw new InternalServerErrorException('Error logging user', error);
     }
   }
-  async addStockToList(stock: UserStockDto, user: TokenUser) {
+  async addStockToList(stock: UserStock, user: TokenUser) {
     // uncomment to debug
     // console.log('🚀 ~ UserService ~ addStockToList ~ user:', user);
     // console.log('🚀 ~ UserService ~ addStockToList ~ stock:', stock);
 
     try {
       const foundUser = await this.userModel.findById(user.sub);
-      if (
-        foundUser.stocks.find(
-          (foundStock) => foundStock.symbol === stock.symbol
-        )
-      )
-        throw new BadRequestException(
-          'User already have a stock with this symbol'
-        );
 
-      const updatedUser = await this.userModel.findByIdAndUpdate(
-        user.sub,
-        { $push: { stocks: stock } },
-        { new: true } // Returns the updated document
-      );
-
-      if (!updatedUser) {
+      if (!foundUser) {
         throw new NotFoundException('User not found');
       }
+
+      const stockExists = foundUser.stocks.some(
+        (existingStock) => existingStock.symbol === stock.symbol
+      );
+      if (stockExists) {
+        throw new BadRequestException(
+          'User already has a stock with this symbol'
+        );
+      }
+
+      foundUser.stocks.push(stock as Stock);
+      await foundUser.save();
 
       return {
         message: 'Stock added successfully',
         userId: user.sub,
-        updatedStocks: updatedUser.stocks,
+        updatedStocks: foundUser.stocks,
       };
     } catch (error) {
       console.error('Failed to add stock:', error);

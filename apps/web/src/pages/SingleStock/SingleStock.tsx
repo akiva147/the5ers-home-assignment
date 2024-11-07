@@ -15,7 +15,8 @@ export const SingleStock = (props: SingleStockProps) => {
 
   if (status === 'error') {
     message.error({
-      content: 'Failed to fetch stock. Please try again later.',
+      content:
+        'Failed to fetch stock. Check if the stock already in your list.',
       key: 'single-stock-error',
     });
     console.error('Error fetching stocks:', data);

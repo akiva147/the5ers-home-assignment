@@ -27,39 +27,42 @@ export const StockList = (props: StockListProps) => {
         <h4>Stock List</h4>
       </header>
       <main>
-        {status === 'pending'
-          ? loader
-          : status === 'success' &&
-            data?.map(({ name, symbol }: UserStock) => (
-              <div className={classes.stock}>
-                <main>
-                  <p>
-                    <strong>Name: </strong>
-                    {name}
-                  </p>
-                  <p>
-                    <strong>Symbol: </strong>
-                    {symbol}
-                  </p>
-                </main>
-                <footer>
-                  <Button
-                    type="primary"
-                    onClick={() => navigate(`/stock/${symbol}`)}
-                  >
-                    View Stock Details
-                  </Button>
+        {status === 'pending' ? (
+          loader
+        ) : status === 'success' && data?.length === 0 ? (
+          <p>Add Stock to your list to see them here</p>
+        ) : (
+          data?.map(({ name, symbol }: UserStock) => (
+            <div className={classes.stock} key={symbol}>
+              <main>
+                <p>
+                  <strong>Name: </strong>
+                  {name}
+                </p>
+                <p>
+                  <strong>Symbol: </strong>
+                  {symbol}
+                </p>
+              </main>
+              <footer>
+                <Button
+                  type="primary"
+                  onClick={() => navigate(`/stock/${symbol}`)}
+                >
+                  View Stock Details
+                </Button>
 
-                  <Button
-                    variant="filled"
-                    danger
-                    onClick={() => deleteStock(symbol)}
-                  >
-                    Delete Stock From List
-                  </Button>
-                </footer>
-              </div>
-            ))}
+                <Button
+                  variant="filled"
+                  danger
+                  onClick={() => deleteStock(symbol)}
+                >
+                  Delete Stock From List
+                </Button>
+              </footer>
+            </div>
+          ))
+        )}
       </main>
     </section>
   );
