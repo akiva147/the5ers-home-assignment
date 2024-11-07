@@ -1,25 +1,15 @@
-import { SingleStock, UserStock } from '@the5ers-home-assignment/schemas';
+import { UserStock } from '@the5ers-home-assignment/schemas';
 import classes from './stock-list.module.scss';
-import { useQuery } from '@tanstack/react-query';
-import { userService } from '../../services/user.service';
-import { getUser } from '../../utils/user.utils';
 import { Button, message } from 'antd';
 import { loader } from '../../constants/general';
-import { useNavigate } from 'react-router-dom';
+import { useStockList } from './useStockList';
 
 export interface StockListProps {}
 
 // Suggested feature: merging this stock signle stock and StockCard component
 
 export const StockList = (props: StockListProps) => {
-  const navigate = useNavigate();
-  const { data, status } = useQuery({
-    queryKey: ['user-stocks'],
-    // change it back to await userService.getStocks() after finishing styling
-    queryFn: async () => await userService.getStocks(),
-    initialData: () => getUser().stocks,
-  });
-
+  const { data, deleteStock, status, navigate } = useStockList();
   // uncomment to debug
   // console.log('🚀 ~ StockList ~ data:', data);
 
@@ -37,29 +27,39 @@ export const StockList = (props: StockListProps) => {
         <h4>Stock List</h4>
       </header>
       <main>
-        {status === 'success' &&
-          data.map(({ name, symbol }: UserStock) => (
-            <div className={classes.stock}>
-              <main>
-                <p>
-                  <strong>Name: </strong>
-                  {name}
-                </p>
-                <p>
-                  <strong>Symbol: </strong>
-                  {symbol}
-                </p>
-              </main>
-              <footer>
-                <Button
-                  type="primary"
-                  onClick={() => navigate(`/stock/${symbol}`)}
-                >
-                  View Stock Details
-                </Button>
-              </footer>
-            </div>
-          ))}
+        {status === 'pending'
+          ? loader
+          : status === 'success' &&
+            data?.map(({ name, symbol }: UserStock) => (
+              <div className={classes.stock}>
+                <main>
+                  <p>
+                    <strong>Name: </strong>
+                    {name}
+                  </p>
+                  <p>
+                    <strong>Symbol: </strong>
+                    {symbol}
+                  </p>
+                </main>
+                <footer>
+                  <Button
+                    type="primary"
+                    onClick={() => navigate(`/stock/${symbol}`)}
+                  >
+                    View Stock Details
+                  </Button>
+
+                  <Button
+                    variant="filled"
+                    danger
+                    onClick={() => deleteStock(symbol)}
+                  >
+                    Delete Stock From List
+                  </Button>
+                </footer>
+              </div>
+            ))}
       </main>
     </section>
   );

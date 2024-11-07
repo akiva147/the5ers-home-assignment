@@ -55,6 +55,14 @@ class UserService {
       throw new Error('Failed to fetch stocks');
     }
   }
+  async deleteStock(symbol: string) {
+    try {
+      await authInstance.delete(`${PREFIX}/stock/${symbol}`);
+    } catch (error) {
+      console.error('Error during stock deletion', error);
+      throw new Error('Failed to delete stock');
+    }
+  }
 }
 
 export const userService = new UserService();

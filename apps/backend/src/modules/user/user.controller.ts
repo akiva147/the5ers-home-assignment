@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Request,
+} from '@nestjs/common';
 import { TokenUserSchema } from '@the5ers-home-assignment/schemas';
 import { Public } from '../../decorators/publicRoute.decorator';
 import { Request as Req } from '../../types/express.type';
@@ -30,5 +38,13 @@ export class UserController {
   findAll(@Request() request: Req) {
     const user = TokenUserSchema.parse(request.user);
     return this.userService.findStocksByUserId(user.sub);
+  }
+  @Delete('stock/:symbol')
+  deleteStock(
+    @Request() request: Req,
+    @Param() { symbol }: { symbol: string }
+  ) {
+    const user = TokenUserSchema.parse(request.user);
+    return this.userService.deleteStockByUserId(user.sub, symbol);
   }
 }

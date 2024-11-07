@@ -73,6 +73,16 @@ export class UserService {
     // console.log('🚀 ~ UserService ~ addStockToList ~ stock:', stock);
 
     try {
+      const foundUser = await this.userModel.findById(user.sub);
+      if (
+        foundUser.stocks.find(
+          (foundStock) => foundStock.symbol === stock.symbol
+        )
+      )
+        throw new BadRequestException(
+          'User already have a stock with this symbol'
+        );
+
       const updatedUser = await this.userModel.findByIdAndUpdate(
         user.sub,
         { $push: { stocks: stock } },
@@ -101,6 +111,26 @@ export class UserService {
     } catch (error) {
       console.error('Failed to fetch stocks:', error);
       throw new InternalServerErrorException('Failed to fetch stocks', error);
+    }
+  }
+  async deleteStockByUserId(userId: string, symbol: string) {
+    // uncomment to debug
+    // console.log('🚀 ~ UserService ~ deleteStockByUserId ~ r:', userId);
+    // console.log('🚀 ~ UserService ~ deleteStockByUserId ~ symbol:', symbol);
+
+    try {
+      const updatedUser = await this.userModel.findByIdAndUpdate(
+        userId,
+        { $pull: { stocks: { symbol: symbol } } }, // Make sure symbol matches
+        { new: true }
+      );
+      return {
+        message: 'Stock delete successfully',
+        userId: userId,
+        updatedStocks: updatedUser.stocks,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to delete stock', error);
     }
   }
 }

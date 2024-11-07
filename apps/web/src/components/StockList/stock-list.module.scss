@@ -9,10 +9,19 @@
   overflow-y: auto;
 
   & > main {
+    display: flex;
+    justify-content: center;
+    height: 20%;
+    max-height: 100%;
+    padding: 1rem;
+  }
+
+  & > main:has(main) {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: stretch;
     gap: 1rem;
     padding: 1rem;
     & > .stock {
@@ -22,6 +31,10 @@
       display: flex;
       justify-content: space-between;
       align-items: end;
+      & > footer {
+        display: flex;
+        gap: 1rem;
+      }
     }
   }
 }

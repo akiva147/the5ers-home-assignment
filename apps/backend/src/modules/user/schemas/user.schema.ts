@@ -8,9 +8,11 @@ export class Stock {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   symbol: string;
 }
+
+export const StockSchema = SchemaFactory.createForClass(Stock);
 
 @Schema()
 export class User {
@@ -23,7 +25,7 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ required: true })
+  @Prop({ type: [StockSchema], default: [] }) // Define `stocks` as an array of Stock subdocuments
   stocks: Stock[];
 }
 
