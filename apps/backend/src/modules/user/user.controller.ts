@@ -1,6 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request } from '@nestjs/common';
+import { TokenUserSchema } from '@the5ers-home-assignment/schemas';
 import { Public } from '../../decorators/publicRoute.decorator';
-import { LoginUserDto, UserDto } from './dto/create-user.dto';
+import { Request as Req } from '../../types/express.type';
+import { LoginUserDto, UserDto, UserStockDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -17,5 +19,16 @@ export class UserController {
   @Post('login')
   login(@Body() createUserDto: LoginUserDto) {
     return this.userService.login(createUserDto);
+  }
+
+  @Post('stock')
+  add(@Body() createStockDto: UserStockDto, @Request() request: Req) {
+    const user = TokenUserSchema.parse(request.user);
+    return this.userService.addStockToList(createStockDto, user);
+  }
+  @Get('stock')
+  findAll(@Request() request: Req) {
+    const user = TokenUserSchema.parse(request.user);
+    return this.userService.findStocksByUserId(user.sub);
   }
 }
