@@ -12,10 +12,12 @@ export interface SearchStocksProps {}
 
 export const SearchStocks = (props: SearchStocksProps) => {
   const [query, setQuery] = useState('');
+
   const { data, status } = useQuery({
     queryKey: ['stocks', query],
     queryFn: async () => await stockService.getStocks(query),
   });
+
   // uncomment to debug
   // console.log('🚀 ~ SearchStocks ~ data:', data);
   if (status === 'error') {

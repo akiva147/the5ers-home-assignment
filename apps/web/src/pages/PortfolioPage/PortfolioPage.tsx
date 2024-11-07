@@ -1,10 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
 import classes from './portfolio-page.module.scss';
-import { stockService } from '../../services/stock.service';
-import { useState } from 'react';
-import { Input } from 'antd';
-import { getUser } from '../../utils/general.utils';
-import { SearchOutlined } from '@ant-design/icons';
+import { getUser } from '../../utils/user.utils';
 import { StockList } from '../../components/StockList';
 import { SearchStocks } from '../../components/SearchStocks';
 

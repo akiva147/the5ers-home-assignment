@@ -11,7 +11,7 @@ export const SignupPage = (props: SignupPageProps) => {
 
   const onSubmit = async (data: User) => {
     try {
-      await userService.signup(data.email, data.password, data.fullName);
+      await userService.signup(data);
       navigate('/login');
     } catch (error) {
       message.error({

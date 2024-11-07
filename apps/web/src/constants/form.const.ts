@@ -1,7 +1,8 @@
-import { User } from '../schemas/user.schema';
+import { User } from '@the5ers-home-assignment/schemas';
 
 export const defaultValues: User = {
   fullName: '',
   email: '',
   password: '',
+  stocks: [],
 };

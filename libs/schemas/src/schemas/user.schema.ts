@@ -30,6 +30,9 @@ export const TokenUserSchema = UserSchema.omit({
   password: true,
 }).extend({
   password: z.string(),
+  sub: z.string(),
+  iat: z.number(),
+  exp: z.number(),
 });
 
 export type User = z.infer<typeof UserSchema>;
