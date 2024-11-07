@@ -25,21 +25,28 @@ export const SearchStocks = (props: SearchStocksProps) => {
   }
   return (
     <section className={classes.container}>
-      <Input
-        prefix={<SearchOutlined />}
-        onChange={(e) => {
-          if (e.target.value.length >= 2) {
-            setQuery(e.target.value);
-          }
-        }}
-        placeholder="Search Stocks (enter at least 2 characters)"
-      />
+      <header>
+        <Input
+          prefix={<SearchOutlined />}
+          onChange={(e) => {
+            if (e.target.value.length >= 2) {
+              setQuery(e.target.value);
+            }
+          }}
+          placeholder="Search Stocks (enter at least 2 characters)"
+        />
+      </header>
       <main>
-        {status === 'pending' && loader}
-        {status === 'success' &&
+        {query === '' ? (
+          <p>The Searched Stocks Will Appear Here</p>
+        ) : status === 'pending' ? (
+          loader
+        ) : (
+          status === 'success' &&
           data.map((stock: SingleStock) => (
             <StockCard key={stock.symbol} stock={stock} />
-          ))}
+          ))
+        )}
       </main>
     </section>
   );

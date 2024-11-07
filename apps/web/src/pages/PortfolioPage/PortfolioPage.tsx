@@ -15,7 +15,6 @@ export const PortfolioPage = (props: PortfolioPageProps) => {
 
   const fisrtName = user.fullName.split(' ')[0];
 
-  // console.log('🚀 ~ PortfolioPage ~ data:', data);
   return (
     <div className={classes.container}>
       <header>

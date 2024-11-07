@@ -1,10 +1,24 @@
 .container {
-  background-color: bisque;
+  height: 100%;
+  max-height: 80vh;
+  width: 100%;
+  display: grid;
   overflow-y: auto;
+  & > header {
+    max-height: 2rem;
+  }
   & > main {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    justify-content: center;
+    height: 20%;
+    max-height: 100%;
     padding: 1rem;
+  }
+  & > main:has(main) {
+    height: 100%;
+    max-height: 100%;
+    flex-direction: column;
+    align-items: normal;
+    gap: 1rem;
   }
 }
