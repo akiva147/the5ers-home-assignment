@@ -2,6 +2,7 @@ import { SingleStock } from '@the5ers-home-assignment/schemas';
 import classes from './stock-card.module.scss';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useAddStock } from '../../hooks/useAddStock';
 
 export interface StockCardProps {
   stock: SingleStock;
@@ -10,6 +11,7 @@ export interface StockCardProps {
 export const StockCard = ({
   stock: { currency, exchangeShortName, name, stockExchange, symbol },
 }: StockCardProps) => {
+  const { addStock } = useAddStock('list');
   const navigate = useNavigate();
 
   return (
@@ -22,11 +24,15 @@ export const StockCard = ({
         <p>Exchange Short Name: {exchangeShortName}</p>
       </main>
       <footer>
-        {/* // TODO: Implement view and add to list buttons */}
         <Button type="primary" onClick={() => navigate(`/stock/${symbol}`)}>
           View Stock
         </Button>
-        <Button className={classes.addButton}>Add To List</Button>
+        <Button
+          className={classes.addButton}
+          onClick={() => addStock({ name, symbol })}
+        >
+          Add To List
+        </Button>
       </footer>
     </div>
   );

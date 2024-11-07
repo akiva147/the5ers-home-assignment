@@ -14,6 +14,7 @@ export const SearchStocks = (props: SearchStocksProps) => {
   const [query, setQuery] = useState('');
 
   const { data, status } = useQuery({
+    enabled: query.length >= 2,
     queryKey: ['stocks', query],
     queryFn: async () => await stockService.getStocks(query),
   });

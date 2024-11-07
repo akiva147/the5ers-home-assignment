@@ -3,13 +3,15 @@ import classes from './single-stock.module.scss';
 import { Button, message } from 'antd';
 import { loader } from '../../constants/general';
 import { useSingleStock } from './useSingleStock';
+import { useAddStock } from '../../hooks/useAddStock';
 
 export interface SingleStockProps {}
 
 export const SingleStock = (props: SingleStockProps) => {
   const { symbol } = useParams();
 
-  const { addStock, data, status } = useSingleStock(symbol);
+  const { data, status } = useSingleStock(symbol);
+  const { addStock } = useAddStock('single');
   // uncomment to debug
   // console.log('🚀 ~ SingleStock ~ data:', data);
 
@@ -57,8 +59,12 @@ export const SingleStock = (props: SingleStockProps) => {
                 <span>yearLow: {data?.yearLow}</span>
               </main>
               <footer>
-                {/* // TODO: add functionallity */}
-                <Button onClick={addStock} type="primary">
+                <Button
+                  onClick={() =>
+                    addStock({ name: data?.name, symbol: data?.symbol })
+                  }
+                  type="primary"
+                >
                   Add To List
                 </Button>
               </footer>
